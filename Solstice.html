@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click to Explode!</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            cursor: pointer;
+            color: white;
+            text-align: center;
+        }
+        .explosion {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Click to explode! 💥</h1>
+    <audio id="explosionSound" src="https://www.fesliyanstudios.com/play-mp3/561" preload="auto" loop></audio>
+    <script>
+        const explosionGifs = [
+            "https://media1.giphy.com/media/HhTXt43pk1I1W/giphy.gif",
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWloMXV3MXBlZXdkM2g3b3I5ejA4bTZuaXB1a2p1MzFxa3Zuam9pZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/146BUR1IHbM6zu/giphy.gif",
+            "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTU0eWlyeXZ1YTVibmZ1NjFuaGxubXR1ODZ0YnYwcXQ4NHlwc2ozaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o752hx7oK2xcUE8Vi/giphy.gif",
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2ZoMjR0ODJxMzJremx4b2hqbnJmdDJwMjVjcTAwMjl5anY5N3RmYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3rgXBz6rOxnyAFM1a0/giphy.gif",
+            "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExemVxc3ZmbHVrdmluaHdtbmp5c2ZqMXBlcW0yNnJrNWlzbGNxeGtqNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xXCDFDV8L6YBL7eMfG/giphy.gif",
+            "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXM4ajJzZDJrZjFkcHVnd3cydDF4M3gwbW5lY2J1bDVuZjdiMXN5OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xWwlsKhzOtuTu/giphy.gif"
+        ];
+        
+        let currentGifIndex = 0;
+        let started = false;
+
+        function triggerExplosion() {
+            let explosion = document.createElement("div");
+            explosion.classList.add("explosion");
+            explosion.style.backgroundImage = `url('${explosionGifs[currentGifIndex]}')`;
+            document.body.appendChild(explosion);
+            
+            let sound = document.getElementById("explosionSound");
+            sound.currentTime = 0;
+            sound.play();
+            
+            setTimeout(() => {
+                explosion.remove();
+                currentGifIndex = (currentGifIndex + 1) % explosionGifs.length;
+                triggerExplosion();
+            }, 1000);
+        }
+        
+        document.body.addEventListener("click", function() {
+            if (!started) {
+                started = true;
+                document.querySelector("h1").remove();
+                triggerExplosion();
+            }
+        });
+    </script>
+</body>
+</html>
